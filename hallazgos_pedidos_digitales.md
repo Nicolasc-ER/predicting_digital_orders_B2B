@@ -2,19 +2,19 @@
 
 ## 1. Preguntas Clave al Negocio
 
-Antes de seguir corriendo el modelo, sentí que era crucial devolverle la pelota al negocio. Tenía que preguntar:
+Antes de seguir explorando lo datos o revisando modelos, sentí que era crucial devolverle la pelota al negocio. Tenía que preguntar:
 
 * ¿Por qué **realmente** queremos digitalizar a los clientes?
 * ¿Es para bajar costos de operación (traducido: gastar menos en gente y procesos manuales)?
 * ¿O es para mejorar la experiencia en canales digitales (porque nadie quiere una app que se sienta como Windows 95)?
 
-Sin esas respuestas claras, sabía que corría el riesgo de perseguir fantasmas. Para mí, el *feedback loop* es lo que mantiene los proyectos vivos y enfocados. Yo me negaria  a avanzar demasido ciegas.
+Sin esas respuestas claras, sabía que se corre el riesgo de perseguir fantasmas. Para mí, el *feedback loop* es lo que mantiene los proyectos vivos y enfocados. Yo me negaria  a avanzar demasido ciegas.
 
 ---
 
 ## 2. Contexto de los Datos
 
-Aquí me topé con el clásico "faltó contexto". No sabía de dónde salían los datos, qué significaban en la operación ni qué objetivo cubrían. Tenía 8  archivos parquet, pero nadie me había contado la historia detrás. Aprendí que la **documentación** no es opcional; es la diferencia entre un análisis útil y la adivinación con Power BI. Igual se avanzo con la prueba.
+Aquí me topé con el clásico "faltó contexto". No sabía de dónde salían los datos, qué significaban en la operación ni qué objetivo cubrían. Tenía 8  archivos parquet, pero nadie me había contado la historia detrás. Aprendí que la **documentación** no es opcional; es la diferencia entre un análisis útil y la adivinación con Power BI. Igual se avanzo con la prueba =P. 
 
 ---
 
@@ -29,7 +29,7 @@ Encontré varias variables que sentí que debían ser clave para cualquier negoc
 Esto me llevó a preguntas que, para mí, eran de gran valor:
 
 * ¿Las campañas de digitalización deben cambiar según el país?
-* ¿Qué pasa si el problema solo está en una región específica?
+* ¿Qué pasa si el problema se busca enfocar en una región(es) específica(s) (donde duele mas)?
 * ¿Cómo sé qué tipo de cliente es prioritario si ni siquiera está definido?
 
 Sentí que si no aclaraba esto, el modelo terminaría decidiendo por mí, y probablemente de forma incorrecta.
@@ -39,6 +39,10 @@ Sentí que si no aclaraba esto, el modelo terminaría decidiendo por mí, y prob
 ## 4. Primeros Hallazgos (EDA General)
 
 En mi primer Análisis Exploratorio de Datos (EDA), encontré que los datos tenían poca variabilidad. Las transacciones y los canales parecían clones. Mi principal dificultad fue cómo diferenciar lo que era básicamente lo mismo.
+El eda partio de 3 preguntas:
+1. ¿Son Diferentes los Pedidos Digitales? 
+2. ¿Quiénes son los Clientes Digitales? (Atributos del Cliente)
+3. ¿Cómo se Comportan los Clientes Digitales? (Historial y Frecuencia)
 
 Las variables de clientes y transacciones se veían tan uniformes que parecía que alguien las había planchado. No pude encontrar diferencias claras entre las transacciones digitales, las del vendedor o las telefónicas. Me di cuenta de que no era tan fácil como creía. La única luz al final del túnel fue la variable **`pedidos_por_cliente`** (la cual calculé), que mostró algo más de dispersión.
 
@@ -69,6 +73,8 @@ Con esta base, realicé un nuevo **EDA segmentado**.
 
 ## 6. Segundo Hallazgo (EDA Segmentado)
 
+
+
 Mi segundo análisis exploratorio, enfocado en el segmento multicanal, mostró mayor variación en variables clave, lo que me indicó que eran buenos predictores para diferenciar el comportamiento.
 
 * `facturacion_promedio`
@@ -76,7 +82,15 @@ Mi segundo análisis exploratorio, enfocado en el segmento multicanal, mostró m
 
 Estas variables me ofrecieron un mejor potencial para diferenciar a los clientes y predecir su comportamiento. Sentí que irrumpí en los datos y, al mismo tiempo, les di una hipótesis y un norte más claro: predecir a los clientes recientes en sus transacciones que usan canales tanto digitales como no digitales.
 
+📊 **Boxplot de facturacion por Canal (Segmento Multicanal)**
 
+![Imagen](images/box_plot_facturacion.png)
+
+
+
+📊 **Distribución de madurez_digital_cd por Canal (Segmento Multicanal)**
+
+![Imagen](images/bar_madurez_digital_canal.png)
 
 ---
 
@@ -112,12 +126,13 @@ Identifiqué varias áreas clave para mejorar el modelo y el análisis:
 
 ---
 
-## **11. Conclusiones**
+### **11. Conclusiones y Próximos Pasos**
 
-Mis hallazgos y el análisis del proyecto me llevaron a las siguientes conclusiones:
+Mis hallazgos y el análisis del proyecto me llevaron a las siguientes conclusiones clave:
 
-1.  **Contexto y conocimiento del negocio**: El éxito de cualquier proyecto de *machine learning* depende en gran medida de un profundo entendimiento del negocio y de los datos. Esta es un área clave para mejorar.
-2.  **La importancia de la variabilidad**: La falta de variabilidad en los datos iniciales entre canales fue un gran desafío. El enfoque de segmentación fue crucial para superar esta limitación. Lo ideal seria tener mas datos que muestren difernecais susatnciales enter los clientes.
-3.  **Mejora de los modelos predictivos**: Los modelos se pueden mejorar significativamente con un enfoque más riguroso en la segmentación (apoyo de negocio) y la ingeniería de características.
-4.  **Rendimiento del modelo**: El modelo desarrollado tiene un rendimiento inicial sólido con un **AUC de 0.74**, lo que lo convierte en una base prometedora para futuras iteraciones.
-5.  **Revisión del objetivo**: Si el objetivo de negocio cambia (por ejemplo, si se busca predecir qué cliente está más cerca de ser digital), el modelo y su variable objetivo deben ajustarse para reflejar esta nueva meta.
+1.  **Contexto y conocimiento del negocio**: El éxito de cualquier proyecto de *machine learning* depende de un profundo entendimiento del negocio y de los datos. Esto es un área crucial para la mejora.
+2.  **Importancia de la variabilidad**: La falta de variabilidad inicial en los datos entre canales fue un desafío significativo. El enfoque de **segmentación** fue fundamental para superar esta limitación. Lo ideal sería contar con más datos que muestren diferencias sustanciales entre los clientes para un análisis más profundo.
+3.  **Variables relevantes**: La mejor manera de segmentar a los clientes, con la información disponible, es identificar a aquellos más recientes, con mayores *tickets* y con un mayor nivel de digitalización.
+4.  **Mejora de los modelos predictivos**: Los modelos pueden mejorarse significativamente con un enfoque más riguroso en la **segmentación** (con el apoyo de negocio) y en la **ingeniería de características**.
+5.  **Rendimiento del modelo**: El modelo desarrollado tiene un rendimiento inicial sólido con un **AUC de 0.74**, lo que lo establece como una base prometedora para futuras iteraciones y mejoras.
+6.  **Revisión del objetivo**: Si el objetivo de negocio cambia, por ejemplo, si se busca predecir qué cliente está más cerca de ser digital en lugar de una clasificación binaria, el modelo y su variable objetivo deben ajustarse para reflejar esta nueva meta.
