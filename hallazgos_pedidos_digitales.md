@@ -6,9 +6,9 @@ Antes de seguir explorando lo datos o revisando modelos, sentí que era crucial 
 
 * ¿Por qué **realmente** queremos digitalizar a los clientes?
 * ¿Es para bajar costos de operación (traducido: gastar menos en gente y procesos manuales)?
-* ¿O es para mejorar la experiencia en canales digitales (porque nadie quiere una app que se sienta como Windows 95)?
+* ¿O es para mejorar la experiencia de los clientes en canales digitales?
 
-Sin esas respuestas claras, sabía que se corre el riesgo de perseguir fantasmas. Para mí, el *feedback loop* es lo que mantiene los proyectos vivos y enfocados. Yo me negaria  a avanzar demasido ciegas.
+Sin esas respuestas claras, sabía que se corre el riesgo de perseguir fantasmas. Para mí, el *feedback loop* es lo que mantiene los proyectos vivos y enfocados. Yo me negaria  a avanzar demasido a ciegas.
 
 ---
 
@@ -44,9 +44,9 @@ El eda partio de 3 preguntas:
 2. ¿Quiénes son los Clientes Digitales? (Atributos del Cliente)
 3. ¿Cómo se Comportan los Clientes Digitales? (Historial y Frecuencia)
 
-Las variables de clientes y transacciones se veían tan uniformes que parecía que alguien las había planchado. No pude encontrar diferencias claras entre las transacciones digitales, las del vendedor o las telefónicas. Me di cuenta de que no era tan fácil como creía. La única luz al final del túnel fue la variable **`pedidos_por_cliente`** (la cual calculé), que mostró algo más de dispersión.
+Las variables de clientes y transacciones se veían tan uniformes que parecía que alguien las había planchado. No pude encontrar diferencias claras entre las transacciones digitales, las del vendedor o las telefónicas. Me di cuenta de que no era tan fácil como creía. La única luz al final del túnel fue la variable **`pedidos_por_cliente`** (la cual calculé), que mostró algo más de diferenciacion.
 
-Sentí que si todo se veía igual, el modelo no serviría de nada. Tenía que pensar en *features* más creativos o cruzar fuentes adicionales para encontrar lo que realmente separa a un cliente digital de uno que no. Como no era posible en ese momento, tomé medidas drásticas.
+Pense que si todo se veía igual, el modelo no serviría de nada. Tenía que pensar en *features* más creativos o cruzar fuentes adicionales para encontrar lo que realmente separa a un cliente digital de uno que no. Como no era posible, decidi tomar medidas drásticas.
 
 📊  **Pedidos promedio por canales**
 ![Imagen](images/pedidos_prom_cliente_canales.png)
@@ -63,7 +63,7 @@ Para validar esta hipótesis y enfocar mi análisis, hice lo siguiente:
 * **Excluí** a los clientes **no digitales** (aquellos que nunca usaron el canal digital) y a los **solo digitales** (los que ya estaban completamente convertidos). Me pareció que los no digitales son más difíciles de digitalizar y los digitales no eran mi objetivo.
 * **Me enfoqué** únicamente en clientes **multicanal** para ser más asertivo en el análisis de la elección de canal.
 
-Con esta base, realicé un nuevo **EDA segmentado**.
+Con esta base, realicé un nuevo **EDA segmentado** , sin saber que me esperaba.
 
 📊 **Distribuccion por pido de cliente**
 
@@ -73,14 +73,12 @@ Con esta base, realicé un nuevo **EDA segmentado**.
 
 ## 6. Segundo Hallazgo (EDA Segmentado)
 
-
-
-Mi segundo análisis exploratorio, enfocado en el segmento multicanal, mostró mayor variación en variables clave, lo que me indicó que eran buenos predictores para diferenciar el comportamiento.
+Mi segundo análisis exploratorio, enfocado en el segmento multicanal, mostró mayor variación en variables clave, lo que me indicó que eran buenos predictores para diferenciar el comportamiento. Aun asi , la mayoria de variables seguien sin poder diferenciar las transaccions digitales de las demas.
 
 * `facturacion_promedio`
 * `madurez_digital_cd`
 
-Estas variables me ofrecieron un mejor potencial para diferenciar a los clientes y predecir su comportamiento. Sentí que irrumpí en los datos y, al mismo tiempo, les di una hipótesis y un norte más claro: predecir a los clientes recientes en sus transacciones que usan canales tanto digitales como no digitales.
+Estas nuevas variables me ofrecieron un mejor potencial para diferenciar a los clientes y predecir su comportamiento. Sentí que irrumpí en los datos y, al mismo tiempo, les di una hipótesis y un norte más claro: predecir a los clientes recientes en sus transacciones que usan canales tanto digitales como no digitales.
 
 📊 **Boxplot de facturacion por Canal (Segmento Multicanal)**
 
@@ -132,7 +130,7 @@ Mis hallazgos y el análisis del proyecto me llevaron a las siguientes conclusio
 
 1.  **Contexto y conocimiento del negocio**: El éxito de cualquier proyecto de *machine learning* depende de un profundo entendimiento del negocio y de los datos. Esto es un área crucial para la mejora.
 2.  **Importancia de la variabilidad**: La falta de variabilidad inicial en los datos entre canales fue un desafío significativo. El enfoque de **segmentación** fue fundamental para superar esta limitación. Lo ideal sería contar con más datos que muestren diferencias sustanciales entre los clientes para un análisis más profundo.
-3.  **Variables relevantes**: La mejor manera de segmentar a los clientes, con la información disponible, es identificar a aquellos más recientes, con mayores *tickets* y con un mayor nivel de digitalización.
+3.  **Variables relevantes**: Tal vez la mejor manera de segmentar a los clientes, con la información disponible, es identificar a aquellos más recientes, con mayores *tickets* y con un mayor nivel de digitalización.
 4.  **Mejora de los modelos predictivos**: Los modelos pueden mejorarse significativamente con un enfoque más riguroso en la **segmentación** (con el apoyo de negocio) y en la **ingeniería de características**.
 5.  **Rendimiento del modelo**: El modelo desarrollado tiene un rendimiento inicial sólido con un **AUC de 0.74**, lo que lo establece como una base prometedora para futuras iteraciones y mejoras.
 6.  **Revisión del objetivo**: Si el objetivo de negocio cambia, por ejemplo, si se busca predecir qué cliente está más cerca de ser digital en lugar de una clasificación binaria, el modelo y su variable objetivo deben ajustarse para reflejar esta nueva meta.
